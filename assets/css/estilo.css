@@ -1,0 +1,19 @@
+body{
+      font-family: 'Quicksand', sans-serif;
+}
+
+.linea {
+         border-radius: 50%;
+         width: 25px;
+         height: 25px;
+         color:#fff;
+         font-weight:bold;
+         font-size:20px;
+         display:inline-block;
+         text-align:center;
+}
+.linea-A{ background:#00BFFF;}
+.linea-B{ background:#FF0000;}
+.linea-C{ background:#0000CD;}
+.linea-D{ background:#228B22;}
+.linea-E{ background:#A800A8;}

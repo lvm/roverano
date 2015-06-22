@@ -5,9 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>simulador roverano</title>
+    <link href="assets/css/estilo.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'> 
+    <script src="assets/js/mustache.min.js"></script>
+    <script src="assets/js/simulador.js"></script>
   </head>
   <body>
-    <script src="assets/js/simulador.js"></script>
+
+
+    <div id="content">
+    </div>
+
+    <button id="reload" type="button"> Reintentar </button>
+
+    <script id="tmpl-estacion" type="x-tmpl-mustache">
+     <div class="bloque">
+       <span class="linea linea-{{linea}}">{{linea}}</span>
+       <strong>{{estacion}}</strong>
+       {{#continua}}
+       (<em>{{direccion}}</em>)
+       &rarr; {{condicion}}
+       {{/continua}}
+     </div>
+    </script>
+    <script id="tmpl-escapamos" type="x-tmpl-mustache">
+     <div class="bloque">
+       <p><strong>{{mensaje}}</strong></p>
+     </div>
+    </script>
+
     <script src="assets/js/test-web.js"></script>
+    <script>
+     document.getElementById('reload')
+             .addEventListener('click',
+                               function(){ window.location.reload(0); });
+    </script>
   </body>
 </html>

@@ -1,5 +1,32 @@
 var pasajero = simulador.pasajero;
 var subte = simulador.subte;
+var helper = simulador.helper;
+
+function render_estacion(estacion, direccion, condicion){
+    var tmpl_estacion = document.getElementById('tmpl-estacion');
+    //Mustache.parse(tmpl_estacion);
+    var data = {linea: subte.estacion_en_linea(estacion),
+                estacion: helper.nice_name[estacion],
+                direccion: direccion,
+                condicion: helper.nice_name[condicion],
+                continua: subte.estacion_en_linea(estacion) != "B",
+               };
+    var content = Mustache.render(tmpl_estacion.innerHTML, data);
+
+    document.getElementById('content').innerHTML += content;
+}
+
+function render_escapamos(vueltas){
+
+    var msg = "Escapaste en "+vueltas+" vueltas!";
+    var tmpl_estacion = document.getElementById('tmpl-escapamos');
+    //Mustache.parse(tmpl_estacion);
+    var data = {mensaje: msg};
+    var content = Mustache.render(tmpl_estacion.innerHTML, data);
+
+    document.getElementById('content').innerHTML += content;
+}
+
 
 function jugar(){
     var dir = ['derecha', 'izquierda']; // 'misma_linea',
@@ -8,13 +35,12 @@ function jugar(){
     var escapamos = false;
     var estacion = "peru";
     var vueltas = 0;
-    var direccion = dir[pasajero.rand()];
-    var condicion = cond[pasajero.rand()];
+    var direccion = dir[helper.rand()];
+    var condicion = cond[helper.rand()];
     var res;
 
-    document.write("<br>ESTACION> ", estacion);
-    document.write("<br>DIRECCION> ", direccion);
-    document.write("<br>CONDICION> ", condicion);
+
+    render_estacion(estacion, direccion, condicion);
 
     while (!escapamos){
         res = pasajero.viajar_a_estacion({
@@ -23,27 +49,20 @@ function jugar(){
 	    'condicion': condicion,
         })
         estacion = res.estacion;
-        if(pasajero.en_linea_b(estacion)){
+        if(subte.en_linea_b(estacion)){
             escapamos = true;
         }
         else{
             vueltas += 1
         }
 
-        direccion = dir[pasajero.rand()];
-        condicion = cond[pasajero.rand()];
+        direccion = dir[helper.rand()];
+        condicion = cond[helper.rand()];
 
-        document.write("<br>");
-        document.write("<br>ESTACION> ", estacion);
-        document.write("<br>DIRECCION> ", direccion);
-        document.write("<br>CONDICION> ", condicion);
-        if(escapamos){
-            document.write("<hr>LINEA BBBBB<hr>");
-        }
-
+        render_estacion(estacion, direccion, condicion);
     }
 
-    document.write( "Escapamos! en ", vueltas, " vueltas");
+    render_escapamos(vueltas);
 }
 
 
