@@ -18,7 +18,8 @@ function render_estacion(estacion, direccion, condicion){
 
 function render_escapamos(vueltas){
 
-    var msg = "Escapaste en "+vueltas+" vueltas!";
+    var msg = "Escapaste en "+vueltas+" vuelta"+
+        (vueltas != 1 ? "s":"")+"!";
     var tmpl_estacion = document.getElementById('tmpl-escapamos');
     //Mustache.parse(tmpl_estacion);
     var data = {mensaje: msg};
