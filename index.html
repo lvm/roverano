@@ -20,6 +20,11 @@
 
     <script id="tmpl-estacion" type="x-tmpl-mustache">
      <div class="bloque">
+       {{#continua}}
+         {{#alt}}
+           <em class="est-alt">Estaciones posibles: {{alt}}</em><br>
+         {{/alt}}
+       {{/continua}}
        <span class="linea linea-{{linea}}">{{linea}}</span>
        <strong>{{estacion}}</strong>
        {{#continua}}
@@ -28,7 +33,7 @@
        {{/continua}}
      </div>
     </script>
-    <script id="tmpl-escapamos" type="x-tmpl-mustache">
+    <script id="tmpl-cartelito" type="x-tmpl-mustache">
      <div class="bloque">
        <p><strong>{{mensaje}}</strong></p>
      </div>

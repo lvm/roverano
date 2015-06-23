@@ -86,64 +86,74 @@ subte.combinaciones = {
            'izquierda': 'bolivar',
            'con_anden_medio': {'izquierda':'bolivar',
                                'derecha': 'carlos-pellegrini',
-                             }
+                             },
+           'misma_linea': ['piedras'],
        },
   'piedras': {'derecha': 'catedral',
               'izquierda': 'av-de-mayo',
               'con_anden_medio': {'izquierda':'independencia-E',
                                   'derecha': 'carlos-pellegrini',
-                                }
+                                },
+           'misma_linea': ['lima'],
          },
   'lima': {'derecha': 'av-de-mayo',
            'izquierda': '9-de-julio',
            'con_anden_medio': {'izquierda':'independencia-E',
                                'derecha': 'carlos-pellegrini',
-                             }
+                             },
+           'misma_linea': ['peru', 'av-de-mayo'],
          },
 // B
   'carlos-pellegrini': {'derecha': '9-de-julio',
                         'izquierda': 'diagonal-norte',
                         'con_anden_medio': {'izquierda':'bolivar',
                                             'derecha': 'independencia-E',
-                                          }
+                                          },
+                        'misma_linea': ['carlos-pellegrini'],
                       },
 // C
   'diagonal-norte': {'derecha': '9-de-julio',
                      'izquierda': 'peru',
                      'con_anden_medio': {'izquierda':'carlos-pellegrini',
                                          'derecha': 'independencia-E',
-                                       }
+                                       },
+                     'misma_linea': ['av-de-mayo','9-de-julio'],
                  },
   'av-de-mayo': {'derecha': '9-de-julio',
                  'izquierda': 'lima',
                  'con_anden_medio': {'izquierda':'independencia-E',
                                      'derecha': 'carlos-pellegrini',
-                                   }
+                                   },
+                 'misma_linea': ['mariano-moreno', 'lima'],
                },
-  'mariano moreno': {'derecha': 'independencia-E',
+  'mariano-moreno': {'derecha': 'independencia-E',
                      'izquierda': 'lima',
                      'con_anden_medio': {'izquierda':'independencia-E',
                                          'derecha': 'carlos-pellegrini',
-                                       }
+                                       },
+                     'misma_linea': ['independencia-C', 'diagonal-norte'],
                  },
   'independencia-C': {'derecha': 'independencia-E',
                       'izquierda': 'lima',
                       'con_anden_medio': {'izquierda':'carlos-pellegrini',
                                           'derecha': 'independencia-E',
-                                     }
+                                     },
+                      'misma_linea': ['diagonal-norte','independencia-E'],
                  },
 // D
   'catedral': {'derecha': 'peru',
                'izquierda': 'bolivar',
                'con_anden_medio': {'izquierda':'bolivar',
                                    'derecha': 'carlos-pellegrini',
-                                 }
+                                 },
+               'misma_linea': ['9-de-julio','peru'],
              },
   '9-de-julio': {'derecha': 'diagonal-norte',
                  'izquierda': 'carlos-pellegrini',
                  'con_anden_medio': {'izquierda':'bolivar',
                                      'derecha': 'carlos-pellegrini',
-                                   }
+                                   },
+                 'misma_linea': ['carlos-pellegrini','catedral'],
                },
 
 // E
@@ -151,23 +161,26 @@ subte.combinaciones = {
               'izquierda': 'peru',
               'con_anden_medio': {'izquierda':'independencia-E',
                                   'derecha': 'carlos-pellegrini',
-                                }
+                                },
+              'misma_linea': ['belgrano','peru'],
             },
   'belgrano': {'derecha': 'peru',
                'izquierda': 'independencia-C',
                'con_anden_medio': {'izquierda':'independencia-E',
                                   'derecha': 'carlos-pellegrini',
-                                }
+                                },
+               'misma_linea': ['independencia-E'],
             },
   'independencia-E': {'derecha': 'peru',
                       'izquierda': 'independencia-C',
                       'con_anden_medio': {'izquierda':'carlos-pellegrini',
                                           'derecha': 'bolivar',
-                                     }
+                                     },
+                      'misma_linea': ['independencia-C', 'bolivar'],
                  },
-}
+};
 
-subte.con_anden_medio = ['independencia-E', 'bolivar', 'carlos-pellegrini']
+subte.con_anden_medio = ['independencia-E', 'bolivar', 'carlos-pellegrini'];
 
 helper.nice_name = {
     'peru':'Peru',
@@ -185,6 +198,9 @@ helper.nice_name = {
     'independencia-E':'Independencia (E)',
     'con_anden_medio': 'Estacion con anden en el medio',
     'combinacion': 'Combinacion',
+    'misma_linea': 'Misma linea',
+    'derecha': 'Derecha',
+    'izquierda': 'Izquierda',
 }
 
 
@@ -194,12 +210,10 @@ helper.nice_name = {
 // genera un nro random
 // params: int, int
 // return: int
-helper.rand = function(min, max){
-  min = min || 0;
+helper.rand = function(max){
   max = max || 0;
-  if(min>0 && max>0){
-      rand = Math.random() * (max-min) + min;
-      rand -= 1;
+  if(max>0){
+      rand = Math.random() * (max-1);
   }
   else{
       rand = Math.random();
@@ -234,7 +248,7 @@ pasajero.viajar_a_estacion = function(viaje_opts){
                };
     Object.assign(opts, viaje_opts);
 
-    var linea, _est, e_pos = 0;
+    var linea, e_alt, _est, e_pos = 0;
 
     var est = opts.estacion;
     // HERE BE DRAGONS.
@@ -252,32 +266,16 @@ pasajero.viajar_a_estacion = function(viaje_opts){
         }
     }
     else{
-        linea = subte.estacion_en_linea(opts.estacion);
-        e_pos = subte.lineas[linea].indexOf(opts.estacion);
-
-        if( (e_pos+1) > subte.lineas[linea].length ){
-            _est = subte.lineas[linea][e_pos];
-            est = subte.combinaciones[_est][opts.direccion];
-        }
-        else{
-            est = subte.lineas[linea][e_pos+1];
-        }
-
-
-        if( est == undefined ){
-            console.log("EPOS> ", e_pos);
-            console.log("VIAJAR LINEA> ", linea);
-            console.log("TEH_ESTACION> ", _est);
-            console.log("MEGACOMBI>", subte.combinaciones[_est][opts.direccion]);
-            console.log(linea, e_pos, opts.direccion);
-
-            // HAX. SALIMOS RAPIDO.
-            return {'estacion': 'carlos pellegrini'};
-        }
-
+        _est = subte.combinaciones[opts.estacion][opts.direccion];
+        e_alt = subte.combinaciones[opts.estacion][opts.direccion];
+        e_rand = helper.rand(_est.length);
+        est = _est[e_rand];
     }
 
-    return {'estacion': est};
+    return {'estacion': est,
+            'condicion': opts.condicion,
+            'direccion': opts.direccion,
+            'estaciones_alternativas': e_alt};
 }
 
 // simula una espera
