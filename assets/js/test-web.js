@@ -43,7 +43,7 @@ function jugar(){
     var estacion = "peru";
     var vueltas = 0;
     var direccion = dir[helper.rand(dir.length)];
-    //var direccion = 'misma_linea'; 
+    var direccion = 'misma_linea'; 
     var condicion = cond[helper.rand()];
     var res, msg;
 
