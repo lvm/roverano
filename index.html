@@ -18,6 +18,12 @@
 
     <button id="reload" type="button"> Reintentar </button>
 
+    <hr>
+
+    <div id="combinaciones">
+      <strong>Datos utilizados</strong>
+    </div>
+
     <script id="tmpl-estacion" type="x-tmpl-mustache">
      <div class="bloque">
        {{#continua}}
@@ -30,6 +36,7 @@
        {{#continua}}
        (<em>{{direccion}}</em>)
        &rarr; {{condicion}}
+       {{#direccion_sec}}({{direccion_sec}}){{/direccion_sec}}
        {{/continua}}
      </div>
     </script>
@@ -38,6 +45,15 @@
        <p><strong>{{&mensaje}}</strong></p>
      </div>
     </script>
+    <script id="tmpl-combos" type="x-tmpl-mustache">
+     <div class="bloque">
+       <pre>
+        {{combos}}
+       </pre>
+     </div>
+    </script>
+
+
 
     <script src="assets/js/test-web.js"></script>
     <script>

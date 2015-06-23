@@ -2,22 +2,44 @@ var pasajero = simulador.pasajero;
 var subte = simulador.subte;
 var helper = simulador.helper;
 
-function render_estacion(estacion, direccion, condicion, alt){
+function render_estacion(estacion, direccion, condicion,
+                         estaciones_alt, direccion_sec){
     var tmpl_estacion = document.getElementById('tmpl-estacion');
-    var est_alt = alt
-                ?alt.map(function(e){return helper.nice_name[e]})
-                :null;
 
+    if( estaciones_alt ){
+        estaciones_alt = estaciones_alt.map(function(e){
+            return helper.nice_name[e]
+        }).join(" o "); // A o B o C;
+    }
+
+    if( direccion_sec ){
+        direccion_sec = helper.nice_name[direccion_sec];
+    }
+
+    if( condicion != "con_anden_medio"){
+        if( direccion == "misma_linea" && condicion == "combinacion"){
+            condicion = "continua";
+        }
+    }
     var data = {linea: subte.estacion_en_linea(estacion),
                 estacion: helper.nice_name[estacion],
                 direccion: helper.nice_name[direccion],
                 condicion: helper.nice_name[condicion],
-                alt: est_alt? est_alt.join(" o "): est_alt,
                 continua: subte.estacion_en_linea(estacion) != "B",
+                estaciones_alt: estaciones_alt,
+                direccion_sec: direccion_sec,
                };
     var content = Mustache.render(tmpl_estacion.innerHTML, data);
 
     document.getElementById('content').innerHTML += content;
+}
+
+function render_combos(combinaciones){
+    var tmpl = document.getElementById('tmpl-combos');
+    var data = {combos: JSON.stringify(combinaciones, null, '\t')};
+    var content = Mustache.render(tmpl.innerHTML, data);
+
+    document.getElementById('combinaciones').innerHTML += content;
 }
 
 function render_cartelito(msg){
@@ -46,6 +68,8 @@ function jugar(){
     var direccion = 'misma_linea'; 
     var condicion = cond[helper.rand()];
     var res, msg;
+
+    render_combos(subte.combinaciones);
 
     render_estacion(estacion, direccion, condicion);
     //return;
@@ -77,7 +101,8 @@ function jugar(){
 
         render_estacion(estacion,
                         direccion, condicion,
-                        res.estaciones_alternativas);
+                        res.estaciones_alt,
+                        res.direccion_sec);
     }
 
     render_escapamos(vueltas);

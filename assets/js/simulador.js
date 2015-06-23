@@ -201,6 +201,7 @@ helper.nice_name = {
     'misma_linea': 'Misma linea',
     'derecha': 'Derecha',
     'izquierda': 'Izquierda',
+    'continua': 'Continua',
 }
 
 
@@ -250,7 +251,7 @@ pasajero.viajar_a_estacion = function(viaje_opts){
                };
     Object.assign(opts, viaje_opts);
 
-    var linea, r_dir, e_alt, _est, e_pos = 0;
+    var linea, r_dir, s_dir, e_alt, _est, e_pos = 0;
 
     var est = opts.estacion;
     // HERE BE DRAGONS.
@@ -270,7 +271,8 @@ pasajero.viajar_a_estacion = function(viaje_opts){
     else{
         if( opts.condicion == 'con_anden_medio'){
             r_dir = helper.rand(direcciones_posibles.length);
-            est = subte.combinaciones[opts.estacion][opts.condicion][direcciones_posibles[r_dir]];
+            s_dir = direcciones_posibles[r_dir];
+            est = subte.combinaciones[opts.estacion][opts.condicion][s_dir];
         }
         else{
             _est = subte.combinaciones[opts.estacion][opts.direccion];
@@ -279,12 +281,12 @@ pasajero.viajar_a_estacion = function(viaje_opts){
         }
     }
 
-    console.log("pre return>", est);
-
     return {'estacion': est,
             'condicion': opts.condicion,
             'direccion': opts.direccion,
-            'estaciones_alternativas': _est};
+            'estaciones_alt': _est,
+            'direccion_sec': s_dir,
+           };
 }
 
 // simula una espera
