@@ -13,6 +13,20 @@ function switch_contenido(btn, content){
     }
 }
 
+function render_pago(direccion){
+    var tmpl = document.getElementById('tmpl-cartelito');
+    var modo = 'Viajamos con saldo positivo';
+    if( direccion == 'izquierda' ){
+        modo = 'Viajamos con saldo negativo';
+    }
+    if( direccion == 'misma_linea' ){
+        modo = 'Viajamos con subtepass';
+    }
+    var data = {mensaje: modo};
+    var content = Mustache.render(tmpl.innerHTML, data);
+    document.getElementById('content').innerHTML += content;
+}
+
 function render_estacion(estacion, direccion, condicion,
                          estaciones_alt, direccion_sec){
     var tmpl_estacion = document.getElementById('tmpl-estacion');
@@ -32,6 +46,7 @@ function render_estacion(estacion, direccion, condicion,
             condicion = "continua";
         }
     }
+
     var data = {linea: subte.estacion_en_linea(estacion),
                 estacion: helper.nice_name[estacion],
                 direccion: helper.nice_name[direccion],
@@ -76,12 +91,13 @@ function jugar(){
     var estacion = "peru";
     var vueltas = 0;
     var direccion = dir[helper.rand(dir.length)];
-    //var direccion = 'misma_linea';
+    //var direccion = 'misma_linea;'
     var condicion = cond[helper.rand()];
     var res, msg;
 
     render_combos(subte.combinaciones);
 
+    render_pago(direccion);
     render_estacion(estacion, direccion, condicion);
     //return;
     while (!escapamos){
