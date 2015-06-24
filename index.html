@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>simulador roverano</title>
     <link href="assets/css/estilo.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'> 
+    <link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
     <script src="assets/js/mustache.min.js"></script>
     <script src="assets/js/simulador.js"></script>
   </head>
   <body>
 
+
+    <h1>Recorrido realizado</h1>
 
     <div id="content">
     </div>
@@ -20,16 +22,23 @@
 
     <hr>
 
-    <div id="combinaciones">
-      <strong>Datos utilizados</strong>
+    <h2>Datos utilizados</h2>
+    <h3>Combinaciones</h3>
+    <button id="switch_combos" type="button"> Mostrar </button>
+    <div id="combinaciones" style="display:none;">
+    </div>
+    <h3>Mapa</h3>
+    <button id="switch_mapa" type="button"> Mostrar </button>
+    <div id="mapa" style="display:none;">
+      <img src="assets/img/estaciones.png" alt="Estaciones">
     </div>
 
     <script id="tmpl-estacion" type="x-tmpl-mustache">
      <div class="bloque">
+       {{#direccion_sec}}
+         <em class="est-alt">Vamos a la {{direccion_sec}}</em><br>
+       {{/direccion_sec}}
        {{#continua}}
-         {{#direccion_sec}}
-           <em class="est-alt">Vamos a la {{direccion_sec}}</em><br>
-         {{/direccion_sec}}
          {{#alt}}
            <em class="est-alt">Estaciones posibles: {{alt}}</em><br>
          {{/alt}}
@@ -62,6 +71,20 @@
      document.getElementById('reload')
              .addEventListener('click',
                                function(){ window.location.reload(0); });
+     document.getElementById('switch_combos')
+             .addEventListener('click',
+                               function(){
+         switch_contenido(document.getElementById('switch_combos'),
+                document.getElementById('combinaciones')
+                );
+       });
+     document.getElementById('switch_mapa')
+             .addEventListener('click',
+                               function(){
+         switch_contenido(document.getElementById('switch_mapa'),
+                document.getElementById('mapa')
+                );
+       });
     </script>
   </body>
 </html>

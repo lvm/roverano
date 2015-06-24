@@ -2,6 +2,17 @@ var pasajero = simulador.pasajero;
 var subte = simulador.subte;
 var helper = simulador.helper;
 
+function switch_contenido(btn, content){
+    if( content.style.display == "none" ){
+        content.style.display = "block";
+        btn.innerText = "Ocultar";
+    }
+    else{
+        content.style.display = "none";
+        btn.innerText = "Mostrar";
+    }
+}
+
 function render_estacion(estacion, direccion, condicion,
                          estaciones_alt, direccion_sec){
     var tmpl_estacion = document.getElementById('tmpl-estacion');
@@ -65,7 +76,7 @@ function jugar(){
     var estacion = "peru";
     var vueltas = 0;
     var direccion = dir[helper.rand(dir.length)];
-    var direccion = 'misma_linea'; 
+    //var direccion = 'misma_linea';
     var condicion = cond[helper.rand()];
     var res, msg;
 
@@ -109,4 +120,6 @@ function jugar(){
 }
 
 
+// iniciamos
 jugar();
+

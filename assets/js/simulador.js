@@ -167,7 +167,7 @@ subte.combinaciones = {
   'belgrano': {'derecha': 'peru',
                'izquierda': 'independencia-C',
                'con_anden_medio': {'izquierda':'independencia-E',
-                                  'derecha': 'carlos-pellegrini',
+                                   'derecha': 'bolivar',
                                 },
                'misma_linea': ['independencia-E'],
             },
