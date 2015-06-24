@@ -27,6 +27,9 @@
     <script id="tmpl-estacion" type="x-tmpl-mustache">
      <div class="bloque">
        {{#continua}}
+         {{#direccion_sec}}
+           <em class="est-alt">Vamos a la {{direccion_sec}}</em><br>
+         {{/direccion_sec}}
          {{#alt}}
            <em class="est-alt">Estaciones posibles: {{alt}}</em><br>
          {{/alt}}
@@ -36,7 +39,6 @@
        {{#continua}}
        (<em>{{direccion}}</em>)
        &rarr; {{condicion}}
-       {{#direccion_sec}}({{direccion_sec}}){{/direccion_sec}}
        {{/continua}}
      </div>
     </script>
