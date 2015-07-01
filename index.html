@@ -1,90 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>simulador roverano</title>
-    <link href="assets/css/estilo.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
-    <script src="assets/js/mustache.min.js"></script>
-    <script src="assets/js/simulador.js"></script>
-  </head>
-  <body>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>simulador roverano</title>
+  <link href="assets/css/estilo.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+  <script src="assets/js/mustache.min.js"></script>
+  <script src="assets/js/simulador.js"></script>
+</head>
+
+<body>
 
 
-    <h1>Recorrido realizado</h1>
+  <h1>Recorrido realizado</h1>
 
-    <div id="content">
+  <div id="content">
+  </div>
+
+  <button id="reload" type="button"> Reintentar </button>
+
+  <hr>
+
+  <h2>Datos utilizados</h2>
+  <h3>Combinaciones</h3>
+  <button id="switch_combos" type="button"> Mostrar </button>
+  <div id="combinaciones" style="display:none;">
+  </div>
+  <h3>Mapa</h3>
+  <button id="switch_mapa" type="button"> Mostrar </button>
+  <div id="mapa" style="display:none;">
+    <img src="assets/img/estaciones.png" alt="Estaciones">
+  </div>
+
+  <script id="tmpl-estacion" type="x-tmpl-mustache">
+    <div class="bloque">
+      {{#direccion_sec}}
+      <em class="est-alt">Vamos a la {{direccion_sec}}</em>
+      <br> {{/direccion_sec}} {{#continua}} {{#alt}}
+      <em class="est-alt">Estaciones posibles: {{alt}}</em>
+      <br> {{/alt}} {{/continua}}
+      <span class="linea linea-{{linea}}">{{linea}}</span>
+      <strong>{{estacion}}</strong>
+      {{#continua}} (
+      <em>{{direccion}}</em>) &rarr; {{condicion}} {{/continua}}
     </div>
-
-    <button id="reload" type="button"> Reintentar </button>
-
-    <hr>
-
-    <h2>Datos utilizados</h2>
-    <h3>Combinaciones</h3>
-    <button id="switch_combos" type="button"> Mostrar </button>
-    <div id="combinaciones" style="display:none;">
+  </script>
+  <script id="tmpl-cartelito" type="x-tmpl-mustache">
+    <div class="bloque">
+      <p>
+        <strong>{{&mensaje}}</strong>
+      </p>
     </div>
-    <h3>Mapa</h3>
-    <button id="switch_mapa" type="button"> Mostrar </button>
-    <div id="mapa" style="display:none;">
-      <img src="assets/img/estaciones.png" alt="Estaciones">
-    </div>
-
-    <script id="tmpl-estacion" type="x-tmpl-mustache">
-     <div class="bloque">
-       {{#direccion_sec}}
-         <em class="est-alt">Vamos a la {{direccion_sec}}</em><br>
-       {{/direccion_sec}}
-       {{#continua}}
-         {{#alt}}
-           <em class="est-alt">Estaciones posibles: {{alt}}</em><br>
-         {{/alt}}
-       {{/continua}}
-       <span class="linea linea-{{linea}}">{{linea}}</span>
-       <strong>{{estacion}}</strong>
-       {{#continua}}
-       (<em>{{direccion}}</em>)
-       &rarr; {{condicion}}
-       {{/continua}}
-     </div>
-    </script>
-    <script id="tmpl-cartelito" type="x-tmpl-mustache">
-     <div class="bloque">
-       <p><strong>{{&mensaje}}</strong></p>
-     </div>
-    </script>
-    <script id="tmpl-combos" type="x-tmpl-mustache">
-     <div class="bloque">
-       <pre>
+  </script>
+  <script id="tmpl-combos" type="x-tmpl-mustache">
+    <div class="bloque">
+      <pre>
         {{combos}}
-       </pre>
-     </div>
-    </script>
+      </pre>
+    </div>
+  </script>
 
 
 
-    <script src="assets/js/test-web.js"></script>
-    <script>
-     document.getElementById('reload')
-             .addEventListener('click',
-                               function(){ window.location.reload(0); });
-     document.getElementById('switch_combos')
-             .addEventListener('click',
-                               function(){
-         switch_contenido(document.getElementById('switch_combos'),
-                document.getElementById('combinaciones')
-                );
-       });
-     document.getElementById('switch_mapa')
-             .addEventListener('click',
-                               function(){
-         switch_contenido(document.getElementById('switch_mapa'),
-                document.getElementById('mapa')
-                );
-       });
-    </script>
-  </body>
+  <script src="assets/js/test-web.js"></script>
+  <script>
+    document.getElementById('reload')
+      .addEventListener('click',
+        function() {
+          window.location.reload(0);
+        });
+    document.getElementById('switch_combos')
+      .addEventListener('click',
+        function() {
+          switch_contenido(document.getElementById('switch_combos'),
+            document.getElementById('combinaciones')
+          );
+        });
+    document.getElementById('switch_mapa')
+      .addEventListener('click',
+        function() {
+          switch_contenido(document.getElementById('switch_mapa'),
+            document.getElementById('mapa')
+          );
+        });
+  </script>
+</body>
+
 </html>
